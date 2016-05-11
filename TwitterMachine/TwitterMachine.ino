@@ -8,7 +8,6 @@ The user is notify.
 
 #define CUSTOM_SETTINGS
 #define INCLUDE_TEXT_TO_SPEECH_SHIELD
-#define INCLUDE_NOTIFICATION_SHIELD
 #define INCLUDE_VOICE_RECOGNIZER_SHIELD
 #define INCLUDE_TWITTER_SHIELD
 
@@ -20,6 +19,7 @@ The user is notify.
 bool asSpeaked = false;
 char *MyTweet;
 char Hashtag[]= "#With1Sheeld";
+bool defilementOk = false;
 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 int inputButtonSend = 8;
@@ -57,13 +57,20 @@ void loop()
   }
 
   int lengthTweet = strlen(MyTweet);
+  if(lengthTweet >  16 && !defilementOk){
+    for(int i = 16; i < lengthTweet; i++){
+      delay(1000);
+      lcd.scrollDisplayLeft();
+      defilementOk = true;
+    }
+    lcd.home(); 
+  }
   
   if(valSend != 0 && lengthTweet != 0){
     strcat(MyTweet, " ");
     strcat(MyTweet, Hashtag);
     Twitter.tweet(MyTweet);
       TextToSpeech.say("Tweet send !");
-      Notification.notifyPhone("Tweet envoyé");
       lcd.setCursor(0, 1);
       // print the number of seconds since reset:
       lcd.print("Tweet send !");
