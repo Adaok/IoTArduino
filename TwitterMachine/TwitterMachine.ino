@@ -16,20 +16,32 @@ The user is notify.
 
 /* Include 1Sheeld library. */
 #include <OneSheeld.h>
+#include <LiquidCrystal.h>
+
 
 bool asSpeaked = false;
 char *MyTweet;
 char Hashtag[]= "#With1Sheeld";
 
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+
 void setup()
 {
   /* Start communication. */
   OneSheeld.begin();
-  /* Set the LED pin as output. */
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+  // Print a message to the LCD.
+  lcd.print("hello, world!");
+  
 }
 
 void loop()
 {
+  lcd.setCursor(0, 1);
+  // print the number of seconds since reset:
+  lcd.print(millis() / 1000);
   if(VoiceRecognition.isNewCommandReceived()){
 
     MyTweet = VoiceRecognition.getLastCommand();
