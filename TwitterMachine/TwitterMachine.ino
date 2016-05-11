@@ -45,18 +45,28 @@ void loop()
 {
   valSend = digitalRead(inputButtonSend);  // read input value
   valCancel = digitalRead(inputButtonCancel);
+  int lengthTweet = strlen(MyTweet);
        
   if(VoiceRecognition.isNewCommandReceived()){
     MyTweet = VoiceRecognition.getLastCommand();
+    lengthTweet = strlen(MyTweet);  
     lcd.clear();
     lcd.setCursor(0,0);
     lcd.print(MyTweet);
     lcd.setCursor(0, 1);
     // print the number of seconds since reset:
     lcd.print(Hashtag);
+    if(lengthTweet > 180){
+      strcpy(MyTweet, "");
+      lcd.clear();
+      lcd.print("Tweet too long !");
+      delay(2000);
+      lcd.clear();
+      lcd.print("Tweet Machine !");
+     }
   }
 
-  int lengthTweet = strlen(MyTweet);
+  lengthTweet = strlen(MyTweet);
   if(lengthTweet >  16 && !defilementOk){
     for(int i = 16; i < lengthTweet; i++){
       delay(1000);
@@ -79,6 +89,7 @@ void loop()
       delay(2000);
       lcd.clear();
       lcd.print("Tweet Machine !");
+      defilementOk = false;
   }
 
   if(valCancel != 0 && lengthTweet != 0){
@@ -89,18 +100,8 @@ void loop()
      delay(2000);
      lcd.clear();
      lcd.print("Tweet Machine !");
+     defilementOk = false;
+
   }
 
-  if(lengthTweet > 180){
-     strcpy(MyTweet, "");
-     lcd.clear();
-     lcd.print("Tweet too long !");
-
-     delay(2000);
-     lcd.clear();
-     lcd.print("Tweet Machine !");
-  }
-
-
-  
 }
