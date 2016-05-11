@@ -90,4 +90,17 @@ void loop()
      lcd.clear();
      lcd.print("Tweet Machine !");
   }
+
+  if(lengthTweet > 180){
+     strcpy(MyTweet, "");
+     lcd.clear();
+     lcd.print("Tweet too long !");
+
+     delay(2000);
+     lcd.clear();
+     lcd.print("Tweet Machine !");
+  }
+
+
+  
 }
