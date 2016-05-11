@@ -24,7 +24,9 @@ char Hashtag[]= "#With1Sheeld";
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 int inputButtonSend = 8;
 int inputButtonCancel = 9;
+
 int valSend = 0;
+int valCancel = 0;
 
 
 void setup()
@@ -36,12 +38,13 @@ void setup()
   // Print a message to the LCD.
   lcd.print("Tweet Machine !");
   pinMode(inputButtonSend, INPUT);
-  
+  pinMode(inputButtonCancel, INPUT);
 }
 
 void loop()
 {
   valSend = digitalRead(inputButtonSend);  // read input value
+  valCancel = digitalRead(inputButtonCancel);
        
   if(VoiceRecognition.isNewCommandReceived()){
     MyTweet = VoiceRecognition.getLastCommand();
@@ -65,5 +68,19 @@ void loop()
       // print the number of seconds since reset:
       lcd.print("Tweet send !");
       strcpy(MyTweet, "");
+
+      delay(2000);
+      lcd.clear();
+      lcd.print("Tweet Machine !");
+  }
+
+  if(valCancel != 0 && lengthTweet != 0){
+     strcpy(MyTweet, "");
+     lcd.clear();
+     lcd.print("Tweet abort");
+
+     delay(2000);
+     lcd.clear();
+     lcd.print("Tweet Machine !");
   }
 }
