@@ -12,9 +12,7 @@ The user is notify.
 #define INCLUDE_VOICE_RECOGNIZER_SHIELD
 #define INCLUDE_TWITTER_SHIELD
 
-
-
-/* Include 1Sheeld library. */
+/* Include 1Sheeld library and other. */
 #include <OneSheeld.h>
 #include <LiquidCrystal.h>
 
@@ -39,12 +37,16 @@ void setup()
 
 void loop()
 {
-  lcd.setCursor(0, 1);
-  // print the number of seconds since reset:
-  lcd.print(millis() / 1000);
   if(VoiceRecognition.isNewCommandReceived()){
 
     MyTweet = VoiceRecognition.getLastCommand();
+
+    lcd.setCursor(0,0);
+    lcd.print(MyTweet);
+    lcd.setCursor(0, 1);
+    // print the number of seconds since reset:
+    lcd.print(Hashtag);
+
     strcat(MyTweet, " ");
     strcat(MyTweet, Hashtag);
     int lengthTweet = strlen(MyTweet);
